@@ -24,7 +24,7 @@ Sistema integrado completo:
 
 ```
 rm3100-system/
-├── README.md            # Este archivo
+├── README.md            
 ├── LICENSE
 ├── .gitignore
 ├── docs/                # Documentación del proyecto
