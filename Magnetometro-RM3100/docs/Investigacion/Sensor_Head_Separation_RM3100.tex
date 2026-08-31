@@ -1,0 +1,37 @@
+\documentclass[11pt,letterpaper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage[hidelinks]{hyperref}
+\usepackage{multicol}
+
+\title{
+    Investigación N\textsuperscript{o} 2 RM3100 \\
+    \large Información sobre distanciamiento entre el sensor y la electrónica
+}
+
+\author{Yerko Jelcic Iturra}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+La pregunta que se busca resolver en este informe es sobre la necesidad de separar el cabezal del sensor RM3100 de los componentes electrónicos.
+Ya que, al investigar, se encontró que hay dos variables que se deben considerar al momento de diseñar el sistema integrado, siendo el primero la distancia y el segundo la minimización del \textit{current-loop area} (área del bucle de corriente). Algunos proyectos comparables, como el de la \textit{HamSCI's Personal Space Weather Station}, que divide el diseño en una ``placa remota'' que contiene solo el RM3100, colocada en el exterior de un tubo de PVC y conectada a un Raspberry Pi en el interior mediante un par trenzado blindado que transmite $I^2C$, no SPI directo.\\
+Por otro lado, un nodo compacto totalmente integrado puede llegar a ser posible y esta validado en aplicaciones espaciales \textit{(CubeSat "Quad-Mag" bus-mounted boards)}, pero solo cuando se combina con algoritmos de cancelación de ruido y/o un capo de plataforma estable y calibrado. Además, las configuracioens integradas de diversos proyectos con el sensor RM3100, junto con un ESP32/Wi-Fi y fuentes de alimentación conmutadas, suelen presentar ruido de entre 50 y 200 [nT], que corresponde a aproximadamente 10 veces peor que la especificación del sensor en $\sim$ 15 [nT].
+\end{abstract}
+
+\begin{multicols}{2}
+
+\section{Key Findings}
+Dentro de los proyectos investigados, se tieen que lo más razonable es separar los sensores por diseño. El magnetómetro 
+
+
+\end{multicols}
+\end{document}
