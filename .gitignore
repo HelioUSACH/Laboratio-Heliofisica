@@ -8,3 +8,12 @@ Desktop.ini
 
 # PlatformIO build output
 .pio/
+
+
+**.ai
+
+/build/
+
+# LaTeX build output (docs/Investigacion), pero conservando los PDF
+**/docs/Investigacion/build/*
+!**/docs/Investigacion/build/*.pdf
