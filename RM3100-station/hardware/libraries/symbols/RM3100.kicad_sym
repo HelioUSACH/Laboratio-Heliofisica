@@ -1,0 +1,285 @@
+(kicad_symbol_lib
+	(version 20251024)
+	(generator "kicad_symbol_editor")
+	(generator_version "10.0")
+	(symbol "RM3100"
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(duplicate_pin_numbers_are_jumpers no)
+		(property "Reference" "RM3100"
+			(at 12.446 -9.652 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 2 2)
+					(color 0 0 0 1)
+				)
+			)
+		)
+		(property "Value" ""
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "RM3100-station:RM3100_Module"
+			(at -6.858 -26.924 0)
+			(show_name no)
+			(do_not_autoplace yes)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(symbol "RM3100_1_1"
+			(rectangle
+				(start 0 0)
+				(end 25.5 -25.75)
+				(stroke
+					(width 0)
+					(type solid)
+					(color 0 0 0 1)
+				)
+				(fill
+					(type background)
+				)
+			)
+			(polyline
+				(pts
+					(xy 10.16 -17.78) (xy 12.7 -12.7) (xy 15.24 -17.78) (xy 10.16 -17.78)
+				)
+				(stroke
+					(width 0.3)
+					(type solid)
+					(color 0 0 0 1)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(text "N"
+				(at 12.7 -19.558 0)
+				(effects
+					(font
+						(face "Fira Code")
+						(size 2 2)
+						(bold yes)
+						(color 0 0 0 1)
+					)
+				)
+			)
+			(pin bidirectional line
+				(at -2.54 -6.44 0)
+				(length 2.54)
+				(name "SI/SDA"
+					(effects
+						(font
+							(size 0.8 0.8)
+						)
+					)
+				)
+				(number "1"
+					(effects
+						(font
+							(size 0.8 0.8)
+						)
+					)
+				)
+			)
+			(pin input line
+				(at 28.09 -19.31 180)
+				(length 2.54)
+				(name "SSN"
+					(effects
+						(font
+							(size 0.8 0.8)
+						)
+					)
+				)
+				(number "3"
+					(effects
+						(font
+							(size 0.8 0.8)
+						)
+					)
+				)
+			)
+			(pin power_in line
+				(at 17.03 2.54 270)
+				(length 2.54)
+				(name "AVDD"
+					(effects
+						(font
+							(size 0.8 0.8)
+						)
+					)
+				)
+				(number "4"
+					(effects
+						(font
+							(size 0.8 0.8)
+						)
+					)
+				)
+			)
+			(pin power_in line
+				(at 17.03 -28.29 90)
+				(length 2.54)
+				(name "AVSS"
+					(effects
+						(font
+							(size 0.8 0.8)
+						)
+					)
+				)
+				(number "5"
+					(effects
+						(font
+							(size 0.8 0.8)
+						)
+					)
+				)
+			)
+			(pin power_in line
+				(at 8.52 2.54 270)
+				(length 2.54)
+				(name "DVDD"
+					(effects
+						(font
+							(size 0.8 0.8)
+						)
+					)
+				)
+				(number "14/26"
+					(effects
+						(font
+							(size 0.8 0.8)
+						)
+					)
+				)
+			)
+			(pin power_in line
+				(at 8.52 -28.29 90)
+				(length 2.54)
+				(name "DVSS"
+					(effects
+						(font
+							(size 0.8 0.8)
+						)
+					)
+				)
+				(number "19"
+					(effects
+						(font
+							(size 0.8 0.8)
+						)
+					)
+				)
+			)
+			(pin input line
+				(at 28.09 -6.44 180)
+				(length 2.54)
+				(name "I2CEN"
+					(effects
+						(font
+							(size 0.8 0.8)
+						)
+					)
+				)
+				(number "22"
+					(effects
+						(font
+							(size 0.8 0.8)
+						)
+					)
+				)
+			)
+			(pin input line
+				(at -2.54 -19.31 0)
+				(length 2.54)
+				(name "DRDY"
+					(effects
+						(font
+							(size 0.8 0.8)
+						)
+					)
+				)
+				(number "23"
+					(effects
+						(font
+							(size 0.8 0.8)
+						)
+					)
+				)
+			)
+			(pin input line
+				(at -2.54 -12.88 0)
+				(length 2.54)
+				(name "SCK/SCL"
+					(effects
+						(font
+							(size 0.8 0.8)
+						)
+					)
+				)
+				(number "27"
+					(effects
+						(font
+							(size 0.8 0.8)
+						)
+					)
+				)
+			)
+			(pin input line
+				(at 28.09 -12.88 180)
+				(length 2.54)
+				(name "S0"
+					(effects
+						(font
+							(size 0.8 0.8)
+						)
+					)
+				)
+				(number "28"
+					(effects
+						(font
+							(size 0.8 0.8)
+						)
+					)
+				)
+			)
+		)
+		(embedded_fonts no)
+	)
+)
