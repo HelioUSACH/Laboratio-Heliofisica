@@ -90,7 +90,7 @@
 	(footprint "RM3100-station:RM3100_Module"
 		(layer "F.Cu")
 		(uuid "350c5feb-0141-4a6c-be90-c81cf5af6239")
-		(at 55.05 53.15)
+		(at 221.125 63)
 		(property "Reference" "RM31000"
 			(at 0 -2 270)
 			(unlocked yes)
@@ -144,12 +144,6 @@
 		(path "/7488bdb2-cbb4-4e7f-9f5b-866a205a81cc")
 		(sheetname "/")
 		(sheetfile "RM3100-station.kicad_sch")
-		(units
-			(unit
-				(name "A")
-				(pins "1" "27" "23" "14/26" "19" "4" "5" "22" "28" "3")
-			)
-		)
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_rect
@@ -355,7 +349,7 @@
 	(footprint "RM3100-station:RM3100_Module"
 		(layer "F.Cu")
 		(uuid "6928b9b3-cb82-44b2-9bd3-35487bd3fb35")
-		(at 82.15 53.15)
+		(at 262.875 63.42)
 		(property "Reference" "RM31001"
 			(at 0 -2 270)
 			(unlocked yes)
@@ -620,7 +614,7 @@
 	(footprint "RM3100-station:RM3100_Module"
 		(layer "F.Cu")
 		(uuid "87f04d89-d7d2-4e71-b4bc-34aae46a6b55")
-		(at 109.25 53.15)
+		(at 221.125 29.58)
 		(property "Reference" "RM31002"
 			(at 0 -2 270)
 			(unlocked yes)
@@ -885,7 +879,7 @@
 	(footprint "RF_Module:ESP32-WROOM-32"
 		(layer "F.Cu")
 		(uuid "9dcb37d0-5556-4cfb-beec-b7457caf0f39")
-		(at 142.525 151.765)
+		(at 149.75 179.75)
 		(descr "Single 2.4 GHz Wi-Fi and Bluetooth combo chip https://www.espressif.com/sites/default/files/documentation/esp32-wroom-32_datasheet_en.pdf")
 		(tags "Single 2.4 GHz Wi-Fi and Bluetooth combo  chip")
 		(property "Reference" "U1"
@@ -1832,7 +1826,7 @@
 			)
 			(polygon
 				(pts
-					(xy 118.525 141.965) (xy 166.525 141.965) (xy 166.525 121.025) (xy 118.525 121.025)
+					(xy 125.75 169.95) (xy 173.75 169.95) (xy 173.75 149.01) (xy 125.75 149.01)
 				)
 			)
 		)
@@ -1852,7 +1846,7 @@
 	(footprint "RM3100-station:RM3100_Module"
 		(layer "F.Cu")
 		(uuid "a55d26b9-03ca-4ff9-baaa-d9bf719be4e1")
-		(at 136.35 53.15)
+		(at 262.5 29.5)
 		(property "Reference" "RM31003"
 			(at 0 -2 270)
 			(unlocked yes)
