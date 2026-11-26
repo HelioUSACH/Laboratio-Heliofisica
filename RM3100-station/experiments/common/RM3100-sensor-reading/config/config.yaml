@@ -2,7 +2,9 @@ serial_config:
   port: "COM5"
   monitor_speed: 115200
 
-cycle_count: 100
+  len_data: 100
+
+cycle_count: 5000
 RM3100_address: 0x20
 
 
