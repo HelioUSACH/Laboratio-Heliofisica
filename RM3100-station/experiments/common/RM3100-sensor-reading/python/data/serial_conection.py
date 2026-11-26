@@ -3,6 +3,8 @@ import time
 
 import serial
 
+from ..utils import create_new_file
+
 def is_data_line(camp: list[str]):
     """
     True if the line has exactly 4 integers: t_us, Xc, Yc, Zc
@@ -22,12 +24,14 @@ def conect_mc(cfg: dict, paths: dict, logging_info) :
     """
     port = cfg["serial_config"]["port"]
     monitor_speed = cfg["serial_config"]["monitor_speed"]
+    len_data = cfg["serial_config"]["len_data"]
     cycle_count = cfg["cycle_count"]
     rm3100_address = cfg["RM3100_address"]
     debug_mode = cfg["logging"]["debug_mode"]
 
     name_file =  datetime.now().strftime("rm3100_%Y%m%d_%H-%M-%S.txt")
-    save_file = paths["raw_file"] / name_file
+    save_dir = create_new_file(paths, "raw_file", f"cc_{cycle_count}")
+    save_file = save_dir / name_file
 
     n = 0
     cc_ok = cycle_count is None
@@ -63,6 +67,8 @@ def conect_mc(cfg: dict, paths: dict, logging_info) :
                             f.write("t_us,Xc,Yc,Zc\n")
                         f.write(line + "\n")
                         n += 1
+                        if len_data is not None and n >= len_data:
+                            break
 
                 else:
                     if not cc_ok and (line.startswith("Cycle Count") or line == "Invalid CC"):

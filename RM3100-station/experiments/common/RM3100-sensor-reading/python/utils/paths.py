@@ -24,3 +24,13 @@ def path_file():
     paths["base_file"] = base
 
     return paths
+
+
+def create_new_file(paths: Path, name_file: str, new_name: str):
+    """
+    """
+    new_file = paths[name_file] / new_name
+
+    new_file.mkdir(parents = True, exist_ok = True)
+
+    return new_file
