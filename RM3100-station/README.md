@@ -1,75 +1,49 @@
-# Magnetómetro RM3100
+# RM3100-station
 
-Sistema integrado de magnetometría basado en el sensor **RM3100**. El repositorio reúne el
-firmware, el diseño de hardware y la documentación del proyecto en un solo lugar.
+Estación de magnetometría basada en el sensor **RM3100**.
 
 ## Estructura
 
 ```
-Magnetometro-RM3100/
-├── firmware/     # Proyecto PlatformIO (microcontrolador)
-├── hardware/     # Diseño electrónico (KiCad)
-├── docs/         # Documentación del proyecto
-└── data/         # Datos crudos y procesados
+RM3100-station/
+├── docs/
+│   ├── Administrativo/      # Documentos administrativos (seminario de grado)
+│   ├── Cotizaciones/
+│   ├── Datasheets/          # Hojas de datos del RM3100
+│   ├── Referencias/         # Papers y artículos de referencia
+│   ├── Informes/            # Informes mensuales
+│   ├── Investigacion/       # Documentos LaTeX, bibliografía y figuras
+│   ├── Presentaciones/
+│   └── Review/
+├── experiments/
+│   ├── common/              # Código compartido entre experimentos
+│   ├── 01_sensitivity/
+│   ├── 02_calibration/
+│   └── 03_validation/
+├── hardware/
+│   ├── 3D-Models/
+│   │   ├── Assembly/            # Modelo 3D (.step)
+│   │   ├── Drawings/            # Planos
+│   │   └── Fusion360-projects/  # Proyectos Fusion 360 (no se suben a GitHub)
+│   ├── kicad/RM3100-station/    # Proyecto KiCad (esquemático, PCB, footprints)
+│   ├── libraries/symbols/       # Símbolos KiCad propios
+│   └── exports/
+├── software/                # Código final de la estación (pendiente)
+└── data/                    # Datos operacionales de la estación (pendiente)
 ```
 
-### firmware/
+Cada experimento usa la misma estructura interna:
 
-Proyecto **PlatformIO**. El archivo `platformio.ini` está en la raíz de esta carpeta.
-
-| Ruta              | Contenido                                  |
-|-------------------|--------------------------------------------|
-| `platformio.ini`  | Configuración de entornos y placa.         |
-| `src/`            | `main.cpp` y lógica de la aplicación.      |
-| `include/`        | Headers propios.                           |
-| `lib/`            | Librerías locales (driver del sensor).     |
-| `test/`           | Tests unitarios (Unity/PlatformIO).        |
-
-```bash
-cd firmware
-pio run                  # Compilar
-pio run --target upload  # Flashear
-pio test                 # Ejecutar tests
+```
+0X_nombre/
+├── code/             # Adquisición y análisis
+├── data/raw/         # Datos crudos (no se editan)
+├── data/processed/   # Datos procesados
+└── results/          # Figuras y tablas
 ```
 
-### hardware/
+## Modelo 3D
 
-Diseño electrónico en **KiCad**.
-
-| Ruta                    | Contenido                                                   |
-|-------------------------|-------------------------------------------------------------|
-| `kicad/`                | Proyecto KiCad autocontenido (esquemático, PCB, footprints).|
-| `libraries/symbols/`    | Símbolos `.kicad_sym` propios.                              |
-| `exports/`              | Exportaciones (imágenes de esquemático, etc.).             |
-
-> Las librerías del proyecto se referencian con rutas relativas (`${KIPRJMOD}`), de modo que
-> el repositorio es autocontenido y no depende de rutas absolutas de la máquina.
-
-### docs/
-
-| Carpeta            | Contenido                                             |
-|--------------------|-------------------------------------------------------|
-| `Investigacion/`   | Documentos LaTeX de investigación, bibliografía y figuras. |
-| `Informes/`        | Informes de avance (PDF).                             |
-| `Presentaciones/`  | Presentaciones (PDF).                                 |
-| `Datasheets/`      | Hojas de datos del RM3100 y componentes.             |
-
-La documentación de investigación se compila con `latexmk` (la salida va a `build/`):
-
-```bash
-cd docs/Investigacion
-latexmk RM3100_information.tex
-```
-
-### data/
-
-Datos crudos y procesados. Los archivos grandes quedan fuera del control de versiones
-(regla en `.gitignore`); se versionan solo muestras pequeñas o metadatos.
-
-## Convenciones
-
-- **Firmware**: el driver del RM3100 vive en `firmware/lib/`, aislado y reutilizable, no en `src/`.
-- **Hardware**: las librerías propias de KiCad se guardan en `hardware/libraries/` y se
-  referencian por ruta relativa al proyecto.
-- **Docs**: la fuente LaTeX se versiona; los artefactos de compilación (`build/`) se ignoran,
-  conservando solo el PDF final.
+El modelo 3D del RM3100 está en `hardware/3D-Models/Assembly/RM3100.step` y su plano en
+`hardware/3D-Models/Drawings/RM3100-Plano1.pdf`. El PCB de KiCad usa su propia copia en
+`hardware/kicad/RM3100-station/3d/RM3100.step`.

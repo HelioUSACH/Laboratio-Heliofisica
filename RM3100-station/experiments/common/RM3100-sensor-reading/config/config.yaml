@@ -1,0 +1,11 @@
+serial_config:
+  port: "COM5"
+  monitor_speed: 115200
+
+cycle_count: 100
+RM3100_address: 0x20
+
+
+logging:
+  debug_mode: True
+
