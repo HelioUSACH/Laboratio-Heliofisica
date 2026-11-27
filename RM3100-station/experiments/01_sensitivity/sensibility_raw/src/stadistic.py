@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from scipy.stats import binomtest, norm, pearsonr, spearmanr
 
 def list_axes(df):
     axes = [col for col in df.columns if col != "t_us"]
@@ -83,3 +84,67 @@ def axes_correlation(summary, axes, fit):
     })
 
     return residuals, correlations
+
+
+def mean_split(df, axes, k=2):
+    rows = []
+    for axis in axes:
+        x = df[axis].to_numpy(dtype=float)
+        mean = x.mean()
+        sigma = x.std(ddof=1)
+        lower, upper = mean - k * sigma, mean + k * sigma
+        n_above = int(np.sum(x > mean))
+        n_below = int(np.sum(x < mean))
+        n_equal = len(x) - n_above - n_below
+        n_valid = n_above + n_below
+        n_inside = int(np.sum((x >= lower) & (x <= upper)))
+        rows.append({
+            "axis": axis,
+            "N": len(x),
+            "mean": mean,
+            "median": np.median(x),
+            "n_above": n_above,
+            "n_below": n_below,
+            "n_equal": n_equal,
+            "frac_above_%": 100 * n_above / n_valid if n_valid else np.nan,
+            "p_binom": binomtest(n_above, n_valid, 0.5).pvalue if n_valid else np.nan,
+            "k": k,
+            "lower": lower,
+            "upper": upper,
+            "n_inside": n_inside,
+            "n_outside": len(x) - n_inside,
+            "frac_inside_%": 100 * n_inside / len(x),
+            "frac_inside_gauss_%": 100 * (2 * norm.cdf(k) - 1)
+        })
+
+    return pd.DataFrame(rows)
+
+
+def sample_deviations(dfs, axes):
+    frames = []
+    for key, df in dfs.items():
+        dev = (df[axes] - df[axes].mean()).abs()
+        dev.insert(0, "cycle_count", df.attrs["CC"])
+        dev.insert(0, "file", key)
+        frames.append(dev)
+
+    return pd.concat(frames, ignore_index=True)
+
+
+def uA_cc_correlation(summary, axes):
+    valid = summary.dropna(subset=["cycle_count"])
+    cols = ["cycle_count"] + [f"uA_{axis}" for axis in axes]
+    data = valid[cols].astype(float)
+
+    corr, pvals = {}, {}
+    for method, values, func in [("pearson_log", np.log10(data), pearsonr), ("spearman", data, spearmanr)]:
+        r = pd.DataFrame(np.eye(len(cols)), index=cols, columns=cols)
+        p = pd.DataFrame(np.nan, index=cols, columns=cols)
+        for i in range(len(cols)):
+            for j in range(i + 1, len(cols)):
+                res = func(values.iloc[:, i], values.iloc[:, j])
+                r.iloc[i, j] = r.iloc[j, i] = res.statistic
+                p.iloc[i, j] = p.iloc[j, i] = res.pvalue
+        corr[method], pvals[method] = r, p
+
+    return pd.concat(corr), pd.concat(pvals), len(valid)

@@ -1,5 +1,15 @@
+from pathlib import Path
+
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.stats import gaussian_kde
+
+
+def make_figure_dir(figures_dir, *subfolders):
+    folder = Path(figures_dir).joinpath(*subfolders)
+    folder.mkdir(parents=True, exist_ok=True)
+    return folder
+
 
 def graph_uA(resume, axes, loglog=False):
     markers = ["o", "s", "^", "D", "v", "P"]
@@ -79,28 +89,6 @@ def graph_uA_range(resume, axis, color="C0"):
     return fig, ax
 
 
-def graph_uA_strip(resume, axis, color="C0"):
-    valid = resume.dropna(subset=["cycle_count"])
-    cc_values = sorted(valid["cycle_count"].unique())
-
-    fig, ax = plt.subplots(figsize=(7, 4.5))
-    for pos, cc in enumerate(cc_values):
-        u = valid.loc[valid["cycle_count"] == cc, f"uA_{axis}"].to_numpy()
-        offsets = np.linspace(-0.12, 0.12, len(u)) if len(u) > 1 else np.zeros(1)
-        ax.scatter(pos + offsets, u, color=color, alpha=0.7, label="files" if pos == 0 else None)
-        ax.hlines(u.mean(), pos - 0.25, pos + 0.25, color="k", label="mean" if pos == 0 else None)
-    ax.set_xticks(range(len(cc_values)))
-    ax.set_xticklabels([f"{cc:g}" for cc in cc_values])
-    ax.set_yscale("log")
-    ax.set_xlabel("Cycle count (categorical)")
-    ax.set_ylabel(rf"$u_A$ ({axis}) [LSB]")
-    ax.set_title(f"Type A uncertainty per cycle count ({axis})")
-    ax.grid(alpha=0.3, which="both", axis="y")
-    ax.legend()
-    fig.tight_layout()
-    return fig, ax
-
-
 def graph_err_rel_axis(resume, axis, color="C0"):
     valid = resume.dropna(subset=["cycle_count"])
     mean_per_cc = valid.groupby("cycle_count")[f"err_rel_{axis}_%"].mean()
@@ -119,23 +107,34 @@ def graph_err_rel_axis(resume, axis, color="C0"):
     return fig, ax
 
 
-def graph_residual_correlation(residuals, axes, correlations):
-    pairs = [(axes[i], axes[j]) for i in range(len(axes)) for j in range(i + 1, len(axes))]
-
-    fig, ax_list = plt.subplots(1, len(pairs), figsize=(4.5 * len(pairs), 4.2), squeeze=False,
-                               layout="constrained")
-    for ax, (a1, a2) in zip(ax_list[0], pairs):
-        sc = ax.scatter(residuals[a1], residuals[a2], c=np.log10(residuals["cycle_count"].astype(float)),
-                        cmap="viridis")
-        r_p = correlations.loc[("residual_pearson", a1), a2]
-        r_s = correlations.loc[("residual_spearman", a1), a2]
-        ax.axhline(0, color="gray", lw=0.8)
-        ax.axvline(0, color="gray", lw=0.8)
-        ax.set_xlabel(rf"$\delta_{{{a1}}}$ [dex]")
-        ax.set_ylabel(rf"$\delta_{{{a2}}}$ [dex]")
-        ax.set_title(rf"{a1} vs {a2}: $r$ = {r_p:.2f}, $\rho_s$ = {r_s:.2f}")
+def graph_mean_split(df, axes, split, title):
+    fig, ax_list = plt.subplots(len(axes), 1, figsize=(8, 2.6 * len(axes)), sharex=True, squeeze=False)
+    for ax, axis in zip(ax_list[:, 0], axes):
+        row = split.loc[split["axis"] == axis].iloc[0]
+        x = df[axis].to_numpy(dtype=float)
+        idx = np.arange(len(x))
+        above, below = x > row["mean"], x < row["mean"]
+        ax.scatter(idx[above], x[above], s=12, color="C3", label=f"above: {row['n_above']}")
+        ax.scatter(idx[below], x[below], s=12, color="C0", label=f"below: {row['n_below']}")
+        if row["n_equal"]:
+            equal = ~(above | below)
+            ax.scatter(idx[equal], x[equal], s=12, color="gray", label=f"equal: {row['n_equal']}")
+        outside = (x < row["lower"]) | (x > row["upper"])
+        ax.scatter(idx[outside], x[outside], s=40, facecolors="none", edgecolors="k",
+                   label=f"outside: {row['n_outside']}")
+        ax.axhline(row["mean"], color="k", label=rf"mean = {row['mean']:.2f}")
+        ax.axhspan(row["lower"], row["upper"], color="gray", alpha=0.12)
+        ax.axhline(row["upper"], color="gray", ls="--", label=rf"$\bar{{x}} \pm {row['k']:g}s$")
+        ax.axhline(row["lower"], color="gray", ls="--")
+        ax.set_ylabel(f"{axis} [LSB]")
+        ax.set_title(rf"{axis}: {row['frac_above_%']:.1f}% above mean (binomial $p$ = {row['p_binom']:.2g}), "
+                     rf"{row['frac_inside_%']:.1f}% inside $\pm {row['k']:g}s$ "
+                     rf"(Gaussian: {row['frac_inside_gauss_%']:.1f}%)", fontsize=9)
         ax.grid(alpha=0.3)
-    cbar = fig.colorbar(sc, ax=ax_list[0].tolist())
-    cbar.set_label(r"$\log_{10}$(Cycle count)")
-    fig.suptitle("Correlation between axes of the power-law residuals of $u_A$")
+        ax.legend(fontsize=7, loc="center left", bbox_to_anchor=(1.01, 0.5))
+    ax_list[-1, 0].set_xlabel("Sample index")
+    fig.suptitle(title)
+    fig.tight_layout()
     return fig, ax_list
+
+
