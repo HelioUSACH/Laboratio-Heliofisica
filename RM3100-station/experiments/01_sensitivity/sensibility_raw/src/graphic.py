@@ -2,7 +2,6 @@ from pathlib import Path
 
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.stats import gaussian_kde
 
 
 def make_figure_dir(figures_dir, *subfolders):

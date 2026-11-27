@@ -80,7 +80,7 @@ def main():
                      "n_inside", "n_outside", "frac_inside_%"]]
           .to_string(index=False))
 
-    _, pvals_cc, n_corr = uA_cc_correlation(summary, axes)
+    _, pvals_cc, _ = uA_cc_correlation(summary, axes)
 
 
     split_all.to_csv(DATA_DIR / "mean_split.csv", index=False)
